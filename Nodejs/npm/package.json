@@ -1,0 +1,21 @@
+{
+  "name": "npm",
+  "version": "1.0.0",
+  "description": "Notes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "npm"
+  ],
+  "author": "Akshdeep Singh",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "node-webcam": "^0.8.0",
+    "nodemon": "^2.0.13",
+    "validator": "^13.6.0",
+    "webcam-easy": "^1.0.5"
+  }
+}
