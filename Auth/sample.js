@@ -17,14 +17,6 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(session({
-    secret : "Bella ciao bella ciao",
-    resave:false,
-    saveUninitialized:false
-}))
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.get("/", (req,res) =>{
     res.render("home");
 })
@@ -33,16 +25,16 @@ app.get("/login", (req,res) =>{
     res.render("login");
 })
 app.post("/login", async(req,res) =>{
-    // const email = req.body.username;
-    // const password = req.body.password;
+    const email = req.body.username;
+    const password = req.body.password;
 
-    // const data = await User.findOne({email:email});
-    // const isMatch = bcrypt.compare(password, data.password);
-    // if(isMatch){
-    //     res.render("secrets");
-    // }else{
-    //     console.log("Something Wrong");
-    // }
+    const data = await User.findOne({email:email});
+    const isMatch = bcrypt.compare(password, data.password);
+    if(isMatch){
+        res.render("secrets");
+    }else{
+        console.log("Something Wrong");
+    }
 })
 
 app.get("/register", (req,res) =>{
@@ -54,38 +46,18 @@ app.post("/register", async (req,res) => {
     const password = req.body.password;
 
   try {  
-      const userSign = new User.register({
+      const userSign = new User({
         email : email,
         password:password
     })
    const data =  await userSign.save();
-    res.redirect("/secrets");
+    res.render("secrets");
 }catch(err){
     console.log(err);
-    res.redirect("/register");
 }
-
-});
-
-// User.register({email : req.body.username}, req.body.pasword, function(err, user){
-//     if(err){
-//         console.log(err);
-//         res.redirect("/register");
-//     }else{
-//         passport.authenticate("local")(req,res, function(){
-//             res.redirect("/secrets");
-//         })
-//     }
-// })
-// })
-
-app.get("/secrets", (req,res) =>{
-    if(req.isAuthenticated()){
-        res.redirect("/secrets");
-    }else{
-        res.redirect("/login");
-    }
 })
+
+
 
 
 

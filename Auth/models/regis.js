@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const passportlocalmongoose = require("passport-local-mongoose");
+const passport = require("passport");
 
 const userSchema = new mongoose.Schema({
     email : {
@@ -18,6 +20,12 @@ userSchema.pre("save", async function (next) {
     console.log(`${this.Password}`);
     next();
 })
+userSchema.plugin(passportlocalmongoose);
 const User = new mongoose.model("User", userSchema);    
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 module.exports = User;
